@@ -13,7 +13,7 @@ public class TestUpdate {
 
 		Statement stmt = conn.createStatement();
 
-		int i = stmt.executeUpdate("update user set login='1988-11-05' where id=2");
+		int i = stmt.executeUpdate("update user set login='1988-11-05' where id=9");
 
 		System.out.println("Updated...." + i);
 		
