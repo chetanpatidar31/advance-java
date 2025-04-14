@@ -3,6 +3,9 @@ package com.rays.preparedstatemant;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class TestUserModel {
 	public static void main(String[] args) throws Exception {
@@ -11,7 +14,8 @@ public class TestUserModel {
 //		testUpdate();
 //		testAuthenticate();
 //		testFindByLogin();
-		testFindById();
+//		testFindById();
+		testSearch();
 	}
 
 	private static void testUpdate() throws Exception {
@@ -34,7 +38,7 @@ public class TestUserModel {
 		UserBean bean = new UserBean();
 		UserModel model = new UserModel();
 
-		bean.setId(6);
+		bean.setId(15);
 		model.delete(bean);
 
 	}
@@ -51,7 +55,7 @@ public class TestUserModel {
 		UserModel model = new UserModel();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-		bean.setId(6);
+		bean.setId(15);
 		bean.setFirst("MS");
 		bean.setLast("Dhoni");
 		bean.setLogin("mahi@gmail.com");
@@ -77,7 +81,7 @@ public class TestUserModel {
 			System.out.println("invalid login id or password");
 		}
 	}
-	
+
 	private static void testFindByLogin() throws Exception {
 		UserBean bean = new UserBean();
 		UserModel modal = new UserModel();
@@ -93,7 +97,7 @@ public class TestUserModel {
 			System.out.println("invalid login id");
 		}
 	}
-	
+
 	private static void testFindById() throws Exception {
 		UserBean bean = new UserBean();
 		UserModel modal = new UserModel();
@@ -108,5 +112,26 @@ public class TestUserModel {
 		} else {
 			System.out.println("invalid login id");
 		}
+	}
+
+	public static void testSearch() throws Exception {
+		UserBean bean = new UserBean();
+		UserModel model = new UserModel();
+		List list = new ArrayList();
+
+		list = model.search(bean);
+		
+		Iterator it = list.iterator();
+		
+		while(it.hasNext()) {
+			bean=(UserBean) it.next();
+			System.out.print(bean.getId());
+			System.out.print("\t"+bean.getFirst());
+			System.out.print("\t"+bean.getLast());
+			System.out.print("\t"+bean.getLogin());
+			System.out.print("\t"+bean.getPassword());
+			System.out.println("\t"+bean.getDob());
+		}
+
 	}
 }

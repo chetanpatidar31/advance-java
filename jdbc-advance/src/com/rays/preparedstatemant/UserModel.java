@@ -7,18 +7,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.mysql.cj.protocol.Resultset;
 
 public class UserModel {
 
 	public void add(UserBean bean) throws SQLException, ClassNotFoundException {
-
-		Class.forName("com.mysql.cj.jdbc.Driver");
-
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rays", "root", "root");
+		Connection conn = null;
 		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rays", "root", "root");
+
 			conn.setAutoCommit(false);
+
+			UserBean existBean = findByLogin(bean.getLogin());
+			if (existBean != null) {
+				throw new Exception("Login id already exist");
+			}
 
 			PreparedStatement pstmt = conn.prepareStatement("Insert INTO user values(?,?,?,?,?,?)");
 
@@ -102,6 +110,8 @@ public class UserModel {
 
 			conn.setAutoCommit(false);
 
+			UserBean existBean = findByLogin(bean.getLogin());
+
 			PreparedStatement pstmt = conn
 					.prepareStatement("UPDATE user SET first=?,last=?,login=?,password=?,dob=? WHERE id=?");
 			pstmt.setString(1, bean.getFirst());
@@ -128,8 +138,6 @@ public class UserModel {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rays", "root", "root");
-
-		conn.setAutoCommit(false);
 
 		PreparedStatement pstmt = conn.prepareStatement("select * from user Where login=? and password=?");
 
@@ -190,8 +198,6 @@ public class UserModel {
 
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rays", "root", "root");
 
-		conn.setAutoCommit(false);
-
 		PreparedStatement pstmt = conn.prepareStatement("select * from user Where id=?");
 
 		pstmt.setInt(1, id);
@@ -211,5 +217,32 @@ public class UserModel {
 
 		}
 		return bean;
+	}
+
+	public List search(UserBean bean) throws Exception {
+
+		Class.forName("com.mysql.cj.jdbc.Driver");
+
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rays", "root", "root");
+
+		PreparedStatement pstmt = conn.prepareStatement("select * from user");
+
+		ResultSet rs = pstmt.executeQuery();
+
+		List list = new ArrayList();
+
+		while (rs.next()) {
+			bean=new UserBean();
+			bean.setId(rs.getInt(1));
+			bean.setFirst(rs.getString(2));
+			bean.setLast(rs.getString(3));
+			bean.setLogin(rs.getString(4));
+			bean.setPassword(rs.getString(5));
+			bean.setDob(rs.getDate(6));
+
+			list.add(bean);
+		}
+
+		return list;
 	}
 }
