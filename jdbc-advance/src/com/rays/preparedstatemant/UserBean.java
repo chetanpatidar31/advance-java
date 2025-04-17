@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class UserBean {
 	private int id;
-	private String first;
-	private String last;
+	private String firstName;
+	private String lastName;
 	private String login;
 	private String password;
 	private Date dob;
@@ -18,20 +18,20 @@ public class UserBean {
 		this.id = id;
 	}
 
-	public String getFirst() {
-		return first;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFirst(String first) {
-		this.first = first;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getLast() {
-		return last;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLast(String last) {
-		this.last = last;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getLogin() {
@@ -57,7 +57,5 @@ public class UserBean {
 	public void setDob(Date dob) {
 		this.dob = dob;
 	}
-	
-	
 
 }

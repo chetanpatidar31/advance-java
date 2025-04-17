@@ -8,14 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.rays.util.JDBCDataSource;
+
 public class MarksheetModal {
 
 	public void add(MarksheetBean bean) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rays", "root", "root");
+			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
 
 			PreparedStatement pstmt = conn.prepareStatement("Insert INTO marksheet values(?,?,?,?,?)");
@@ -41,9 +41,8 @@ public class MarksheetModal {
 	public void update(MarksheetBean bean) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
 
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rays", "root", "root");
+			conn = JDBCDataSource.getConnection();
 
 			conn.setAutoCommit(false);
 
@@ -71,9 +70,8 @@ public class MarksheetModal {
 	public void delete(MarksheetBean bean) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
 
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rays", "root", "root");
+			conn = JDBCDataSource.getConnection();
 
 			conn.setAutoCommit(false);
 
@@ -94,9 +92,7 @@ public class MarksheetModal {
 	}
 
 	public MarksheetBean findByPk(int id) throws Exception {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rays", "root", "root");
+		Connection conn = JDBCDataSource.getConnection();
 
 		PreparedStatement pstmt = conn.prepareStatement("select * from marksheet where rollNo = ?");
 
@@ -116,31 +112,58 @@ public class MarksheetModal {
 		return bean;
 
 	}
-	
+
 	public List search() throws Exception {
-		
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rays","root","root");
-		
-		PreparedStatement pstmt=conn.prepareStatement("select * from marksheet");
-		
-		ResultSet rs=pstmt.executeQuery();
-		
+
+		Connection conn = JDBCDataSource.getConnection();
+
+		PreparedStatement pstmt = conn.prepareStatement("select * from marksheet");
+
+		ResultSet rs = pstmt.executeQuery();
+
 		List list = new ArrayList();
-		
+
 		MarksheetBean bean = null;
-		while(rs.next()) {
-			bean=new MarksheetBean();
+		while (rs.next()) {
+			bean = new MarksheetBean();
 			bean.setRollNo(rs.getInt(1));
 			bean.setName(rs.getString(2));
 			bean.setPhy(rs.getInt(3));
 			bean.setChm(rs.getInt(4));
 			bean.setMaths(rs.getInt(5));
-			
+
 			list.add(bean);
 		}
 		return list;
+	}
+
+	public List percentage() throws Exception {
+
+		Connection conn = JDBCDataSource.getConnection();
+		
+		PreparedStatement pstmt = conn.prepareStatement("select * , (phy+chem+maths)/3 as percentage from marksheet");
+		
+		ResultSet rs = pstmt.executeQuery();
+
+		List list = new ArrayList();
+
+		MarksheetBean bean = null;
+
+		while (rs.next()) {
+			bean = new MarksheetBean();
+
+			bean.setRollNo(rs.getInt(1));
+			bean.setName(rs.getString(2));
+			bean.setPhy(rs.getInt(3));
+			bean.setChm(rs.getInt(4));
+			bean.setMaths(rs.getInt(5));
+			bean.setPercentage(rs.getDouble(6));
+
+			list.add(bean);
+		}
+
+		return list;
+
 	}
 
 }

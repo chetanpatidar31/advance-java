@@ -6,6 +6,15 @@ public class MarksheetBean {
 	private int phy;
 	private int chm;
 	private int maths;
+	private double percentage;
+
+	public double getPercentage() {
+		return percentage;
+	}
+
+	public void setPercentage(double percentage) {
+		this.percentage = percentage;
+	}
 
 	public int getRollNo() {
 		return rollNo;

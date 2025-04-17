@@ -11,18 +11,19 @@ public class TestMarksheetModal {
 //		update();
 //		delete();
 //		testFindByPk();
-		testSearch();
+//		testSearch();
+		testSearchPercentage();
 	}
 
-	private static void add() throws ClassNotFoundException, SQLException {
+	private static void add() throws Exception {
 		MarksheetBean bean = new MarksheetBean();
 		MarksheetModal model = new MarksheetModal();
 
-		bean.setRollNo(120);
-		bean.setName("Chanchal");
-		bean.setPhy(78);
-		bean.setChm(85);
-		bean.setMaths(86);
+		bean.setRollNo(100);
+		bean.setName("Chinmay");
+		bean.setPhy(88);
+		bean.setChm(75);
+		bean.setMaths(66);
 
 		model.add(bean);
 
@@ -82,6 +83,29 @@ public class TestMarksheetModal {
 			System.out.print("\t" + bean.getPhy());
 			System.out.print("\t" + bean.getChm());
 			System.out.println("\t" + bean.getMaths());
+		}
+	}
+
+	public static void testSearchPercentage() throws Exception {
+		MarksheetBean bean = new MarksheetBean();
+		MarksheetModal modal = new MarksheetModal();
+
+		List list = new ArrayList();
+
+		list = modal.percentage();
+		Iterator it = list.iterator();
+		while (it.hasNext()) {
+			bean = (MarksheetBean) it.next();
+			System.out.print(bean.getRollNo());
+			System.out.print("\t" + bean.getName());
+			System.out.print("\t" + bean.getPhy());
+			System.out.print("\t" + bean.getChm());
+			System.out.print("\t" + bean.getMaths());
+//			int total = bean.getPhy() + bean.getChm() + bean.getMaths();
+//			double p = total / 3;
+//			System.out.print("\t" + total);
+//			System.out.println("\t"+p);	
+     		System.out.println("\t"+bean.getPercentage());
 		}
 	}
 
