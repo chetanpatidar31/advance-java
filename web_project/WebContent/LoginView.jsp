@@ -8,9 +8,21 @@
 </head>
 <body>
 	<%@ include file="Header.jsp"%>
-	<hr>
 	<h1 align="center">Login</h1>
 
+	<%
+		String msg = (String) request.getAttribute("msg");
+	%>
+
+	<%
+		if (msg != null) {
+	%>
+
+	<h3 align="center"><%=msg%></h3>
+
+	<%
+		}
+	%>
 	<form action="LoginCtl" method="post">
 		<center>
 			<table>
@@ -31,7 +43,6 @@
 			</table>
 		</center>
 	</form>
-	<hr>
 	<%@ include file="Footer.jsp"%>
 </body>
 </html>

@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="#">Footer</a>
+	<hr>
+	<h3>All copyright are reserved of Rays tech</h3>
 </body>
 </html>

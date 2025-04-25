@@ -4,28 +4,26 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Registration page</title>
+<title>Add User</title>
 </head>
 <body>
 	<%@ include file="Header.jsp"%>
-	<h1 align="center">Registration</h1>
+	<h1 align="center">Add User</h1>
 
 	<%
 		String msg = (String) request.getAttribute("msg");
 	%>
-
 	<%
 		if (msg != null) {
 	%>
 
-	<h3 align="center"><%=msg%>
-	</h3>
+	<h3 align="center"><%=msg%></h3>
 
 	<%
 		}
 	%>
 
-	<form action="UserRegistrationCtl" method="post">
+	<form action="AddUserCtl" method="post">
 		<center>
 			<table>
 				<tr>
@@ -54,7 +52,7 @@
 				</tr>
 				<tr>
 					<th></th>
-					<td><input type="submit" value="SignUp" name="operation"></td>
+					<td><input type="submit" value="save" name="operation"></td>
 				</tr>
 			</table>
 		</center>

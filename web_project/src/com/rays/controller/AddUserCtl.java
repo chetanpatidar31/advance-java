@@ -14,12 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.rays.bean.UserBean;
 import com.rays.model.UserModel;
 
-@WebServlet("/UserRegistrationCtl")
-public class UserRegistrationCtl extends HttpServlet {
+@WebServlet("/AddUserCtl")
+public class AddUserCtl extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.sendRedirect("UserRegistrationView.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("AddUserView.jsp");
+		rd.forward(request, response);
 	}
 
 	@Override
@@ -31,33 +32,25 @@ public class UserRegistrationCtl extends HttpServlet {
 		UserModel model = new UserModel();
 
 		String op = request.getParameter("operation");
-
-		String firstName = request.getParameter("firstName");
-		String lastName = request.getParameter("lastName");
-		String login = request.getParameter("login");
-		String password = request.getParameter("password");
 		String dob = request.getParameter("dob");
 
-		if (op.equals("SignUp")) {
-
+		if (op.equalsIgnoreCase("save")) {
 			try {
-				bean.setFirstName(firstName);
-				bean.setLastName(lastName);
-				bean.setLogin(login);
-				bean.setPassword(password);
-				bean.setDob(sdf.parse(dob));
+				bean.setFirstName(request.getParameter("firstName"));
+				bean.setLastName(request.getParameter("lastName"));
+				bean.setLogin(request.getParameter("login"));
+				bean.setPassword(request.getParameter("password"));
+				bean.setDob(sdf.parse(request.getParameter("dob")));
+
 				model.add(bean);
-				
-				request.setAttribute("msg", "User Registered Successfully");
+
+				request.setAttribute("msg", "User added Successfully");
 			} catch (Exception e) {
-				request.setAttribute("msg", e.getMessage());
 				e.printStackTrace();
+				request.setAttribute("msg", e.getMessage());
 			}
-		} else {
-			System.out.println("Unsuccessful Registration");
 		}
-		
-		RequestDispatcher rd = request.getRequestDispatcher("UserRegistrationView.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("AddUserView.jsp");
 		rd.forward(request, response);
 	}
 }
