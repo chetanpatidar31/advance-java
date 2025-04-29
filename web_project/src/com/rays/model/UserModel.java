@@ -34,12 +34,12 @@ public class UserModel {
 		Connection conn = null;
 
 		UserBean existBean = findByLogin(bean.getLogin());
-		
+
 		if (existBean != null) {
-			
+
 			throw new Exception("Login id already exist");
 		}
-		
+
 		try {
 			conn = JDBCDataSource.getConnection();
 
@@ -124,8 +124,6 @@ public class UserModel {
 			conn = JDBCDataSource.getConnection();
 
 			conn.setAutoCommit(false);
-
-			UserBean existBean = findByLogin(bean.getLogin());
 
 			PreparedStatement pstmt = conn
 					.prepareStatement("UPDATE user SET firstName=?,lastName=?,login=?,password=?,dob=? WHERE id=?");
@@ -239,8 +237,16 @@ public class UserModel {
 				sql.append(" and firstName like '" + bean.getFirstName() + "%'");
 			}
 
-			if (bean.getLastName() != null && bean.getFirstName().length() > 0) {
+			if (bean.getLastName() != null && bean.getLastName().length() > 0) {
 				sql.append(" and lastName like '" + bean.getLastName() + "%'");
+			}
+
+			if (bean.getLogin() != null && bean.getLogin().length() > 0) {
+				sql.append(" and login like '" + bean.getLogin() + "%'");
+			}
+
+			if (bean.getDob() != null) {
+				sql.append(" and dob = '" + new java.sql.Date(bean.getDob().getTime()) + "'");
 			}
 		}
 		System.out.println("sql : " + sql.toString());

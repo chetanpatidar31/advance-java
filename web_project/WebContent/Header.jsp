@@ -17,7 +17,7 @@
 	<h3>
 		<%="Hii, " + user.getFirstName()%>
 		<br> 
-		<a href="AddUserCtl">Add User</a> | 
+		<a href="UserCtl">Add User</a> | 
 		<a href="UserListCtl">User List</a> | 
 		<a href="LoginCtl?operation=logout">Logout</a>
 	</h3>
